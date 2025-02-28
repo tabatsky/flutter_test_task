@@ -27,19 +27,27 @@ class HomePage extends StatefulWidget {
 
 /// State of a [HomePage].
 class _HomePageState extends State<HomePage> {
+  // controller for the url TextField:
   final _textController = TextEditingController();
+  // key for the FloatingActionButton:
   final _fabKey = GlobalKey();
 
+  // keeper for html <img> element:
   web.HTMLImageElement? _imgElement;
+
   bool _isFullScreenActive = false;
+
+  // widget state:
   bool _isContextMenuOpened = false;
 
   @override
   Widget build(BuildContext context) {
+    // opacity of the menu content darkening layer:
+    final blackOpacity = _isContextMenuOpened ? 0.7 : 0.0;
     return Scaffold(
       appBar: AppBar(
         flexibleSpace: Container(
-          color: Color.fromRGBO(1, 1, 1, _isContextMenuOpened ? 0.7 : 0.0),
+          color: Color.fromRGBO(1, 1, 1, blackOpacity),
         ),
       ),
       body: Stack(
@@ -76,7 +84,7 @@ class _HomePageState extends State<HomePage> {
                   children: [
                     Expanded(
                       child: TextField(
-                        decoration: InputDecoration(hintText: 'Image URL'),
+                        decoration: const InputDecoration(hintText: 'Image URL'),
                         controller: _textController,
                       ),
                     ),
@@ -98,7 +106,7 @@ class _HomePageState extends State<HomePage> {
           SizedBox.expand(
             child: IgnorePointer(
               child: Container(
-                color: Color.fromRGBO(1, 1, 1, _isContextMenuOpened ? 0.7 : 0.0),
+                color: Color.fromRGBO(1, 1, 1, blackOpacity),
               ),
             ),
           ),
@@ -172,6 +180,8 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
+// determines the paint bounds of the widget.
+// used for positioning of the context menu on the screen.
 extension GlobalKeyExtension on GlobalKey {
   Rect? get globalPaintBounds {
     final renderObject = currentContext?.findRenderObject();
